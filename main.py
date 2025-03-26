@@ -21,9 +21,11 @@ def main():
 
             screen.fill(pygame.Color(0,0,0))
             Player1.draw(screen)
-            pygame.display.flip()
 
+            pygame.display.flip()
             dt = clock.tick(60) / 1000
+
+            Player1.update(dt)
 
 
     elif failure:
