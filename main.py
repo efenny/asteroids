@@ -5,6 +5,13 @@ from player import Player
 dt = 0
 running = True
 
+updatable = pygame.sprite.Group()
+drawable = pygame.sprite.Group()
+
+def checkToExit():
+    for event in pygame.event.get():
+        return event.type == pygame.QUIT
+
 def main():
     success, failure = pygame.init()
 
@@ -12,20 +19,24 @@ def main():
         clock = pygame.time.Clock()
 
         screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+        Player.containers = (updatable, drawable)
         Player1 = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
         while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    return
+            if checkToExit():
+                return
 
             screen.fill(pygame.Color(0,0,0))
-            Player1.draw(screen)
+
+            for d in drawable:
+                d.draw(screen)
 
             pygame.display.flip()
             dt = clock.tick(60) / 1000
 
-            Player1.update(dt)
+            for u in updatable:
+                u.update(dt)
 
 
     elif failure:
